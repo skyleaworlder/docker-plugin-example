@@ -1,0 +1,1 @@
+java -classpath $LOCAL_PATH $MAIN_CLASS
