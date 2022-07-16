@@ -63,7 +63,7 @@ jobs:
             ${{ env.REGISTRY }}/skyleaworlder/${{ env.REPOSITORY }}:latest
 
   dockerhub:
-    if: "github.event.release.released"
+    if: "!github.event.release.prerelease"
     runs-on: ubuntu-latest
     permissions:
       packages: write
