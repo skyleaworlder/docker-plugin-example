@@ -1,13 +1,15 @@
 name: docker-publish
 
 on:
+  release:
+    type: [published]
   push:
     branches: [ci]
 
 env:
   REGISTRY: ghcr.io
   REPOSITORY: normal-dockerfile
-  TAG: ${{ github.sha }}
+  TAG: ${{ github.ref_name }}
 
 jobs:
   build:
@@ -75,4 +77,8 @@ jobs:
           context: ./normal-dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/skyleaworlder/${{ env.REPOSITORY }}:${{ env.TAG }}
+          tags: |
+            skyleaworlder/${{ env.REPOSITORY }}:${{ env.TAG }}
+            skyleaworlder/${{ env.REPOSITORY }}:latest
+            ${{ env.REGISTRY }}/skyleaworlder/${{ env.REPOSITORY }}:${{ env.TAG }}
+            ${{ env.REGISTRY }}/skyleaworlder/${{ env.REPOSITORY }}:latest
