@@ -25,6 +25,11 @@ jobs:
         uses: docker/setup-qemu-action@v2
         if: env.SKIP_CI != 'true'
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        if: env.SKIP_CI != 'true'
+        with:
+          driver-opts: image=moby/buildkit:buildx-stable-1
 
       - name: Login to DockerHub
         if: "github.event.release.released"
@@ -70,4 +75,4 @@ jobs:
           context: ./normal-dockerfile
           #platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.TAG }}
+          tags: ${{ env.REGISTRY }}/skyleaworlder/${{ env.REPOSITORY }}:${{ env.TAG }}
