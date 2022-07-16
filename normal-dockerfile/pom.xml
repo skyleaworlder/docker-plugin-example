@@ -18,25 +18,47 @@
                     <target>8</target>
                 </configuration>
             </plugin>
-
-            <!-- docker-maven-plugin -->
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.40.1</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>skyleaworlder/normal</name>
-                            <build>
-                                <contextDir>${project.basedir}</contextDir>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
-
+    <profiles>
+        <profile>
+            <id>example</id>
+            <properties>
+                <docker.buildArg.APP_NAME>normal-dockerfile</docker.buildArg.APP_NAME>
+                <docker.image.tag.repo>normal-dockerfile</docker.image.tag.repo>
+                <docker.image.tag.tagName>latest</docker.image.tag.tagName>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.40.1</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>normal-dockerfile</name>
+                                    <build>
+                                        <contextDir>${project.basedir}</contextDir>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
