@@ -56,9 +56,10 @@ jobs:
       - name: Build with Maven
         if: env.SKIP_CI != 'true'
         run: mvn -B install -Dmaven.javadoc.skip=true -B -Drat.skip=true -Djacoco.skip=true -DskipITs -DskipTests -f ./normal-dockerfile/pom.xml
+
       - name: Build and Push to DockerHub / ghcr.io
+        if: ${{ github.event.action == 'released' }}
         uses: docker/build-push-action@v3
-        if: env.SKIP_CI != 'true'
         with:
           context: ./normal-dockerfile
           platforms: linux/amd64,linux/arm64
